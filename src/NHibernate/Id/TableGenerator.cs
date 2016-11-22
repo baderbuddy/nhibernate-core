@@ -220,12 +220,11 @@ namespace NHibernate.Id
 				//select + uspdate even for no transaction
 				//or read committed isolation level (needed for .net?)
 
-				IDbCommand qps = conn.CreateCommand();
-				IDataReader rs = null;
-				qps.CommandText = query;
-				qps.CommandType = CommandType.Text;
-				qps.Transaction = transaction;
+                		IDbCommand qps = session.Factory.ConnectionProvider.Driver.GenerateCommand(CommandType.Text, new SqlString(query), new SqlType[0]);
+                		qps.Connection = conn;
+                		qps.Transaction = transaction;
 				PersistentIdGeneratorParmsNames.SqlStatementLogger.LogCommand("Reading high value:", qps, FormatStyle.Basic);
+				IDataReader rs = null;
 				try
 				{
 					rs = qps.ExecuteReader();
