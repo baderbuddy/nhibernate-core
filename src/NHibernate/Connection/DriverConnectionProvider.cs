@@ -38,6 +38,7 @@ namespace NHibernate.Connection
 			try
 			{
 				conn.ConnectionString = ConnectionString;
+				conn.Close();
 				conn.Open();
 			}
 			catch (Exception)
