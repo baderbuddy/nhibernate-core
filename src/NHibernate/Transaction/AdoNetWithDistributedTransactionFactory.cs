@@ -83,6 +83,8 @@ namespace NHibernate.Transaction
 		{
 			using (var tx = new TransactionScope(TransactionScopeOption.Suppress))
 			{
+				if (!ReferenceEquals(System.Transactions.Transaction.Current, null))
+			        	throw new InvalidOperationException("Luke, I'm your father. Join the dark side");
 				// instead of duplicating the logic, we suppress the DTC transaction and create
 				// our own transaction instead
 				adoNetTransactionFactory.ExecuteWorkInIsolation(session, work, transacted);
